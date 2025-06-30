@@ -23,17 +23,29 @@ return {
 			},
 			-- ensure these language parsers are installed
 			ensure_installed = {
-				"python",
-				"cpp",
-				"diff",
-				"java",
-				"luadoc",
-				"fsharp",
-				"go",
-				"json",
+				-- JavaScript/TypeScript
 				"javascript",
 				"typescript",
 				"tsx",
+				
+				-- Python
+				"python",
+				
+				-- C/C++
+				"c",
+				"cpp",
+				
+				-- Java
+				"java",
+				
+				-- Go
+				"go",
+				
+				-- Other languages
+				"diff",
+				"luadoc",
+				"fsharp",
+				"json",
 				"yaml",
 				"html",
 				"css",
@@ -49,7 +61,6 @@ return {
 				"gitignore",
 				"query",
 				"vimdoc",
-				"c",
 			},
 			auto_install = true,
 			incremental_selection = {

@@ -30,11 +30,12 @@ opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
+
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard:append("unnamed") -- use system clipboard as default register (more compatible with macOS)
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
@@ -42,3 +43,15 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+
+-- Faster cursor movement when holding keys
+opt.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (default 1000)
+opt.ttimeoutlen = 50 -- Time to wait for a key code sequence to complete (default -1)
+
+-- Faster scrolling
+opt.scrolloff = 10 -- Keep 10 lines above/below cursor when scrolling
+opt.sidescrolloff = 8 -- Keep 8 columns left/right of cursor when scrolling
+
+-- Even faster cursor movement
+opt.timeout = false -- Disable timeout for key sequences
+opt.ttimeout = false -- Disable timeout for terminal key codes
