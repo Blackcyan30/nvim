@@ -122,6 +122,7 @@ return {
 		lspconfig.clangd.setup({
 			capabilities = capabilities,
 			cmd = { "clangd", "--fallback-style=none", "--header-insertion=never" },
+			init_options = { fallbackFlags = { "-std=c++23" } },
 		})
 
 		-- Java LSP
