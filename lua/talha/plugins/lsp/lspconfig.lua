@@ -114,8 +114,34 @@ return {
 		})
 
 		-- Python LSP
+		--
+		local on_attach = function(client, bufnr)
+			if client.name == "pyright" then
+				client.server_capabilities.semanticTokensProvider = nil
+			end
+		end
+
 		lspconfig.pyright.setup({
 			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		lspconfig.pyright.setup({
+			capabilities = capabilities,
+			settings = {
+				python = {
+					analysis = {
+						typeCheckingMode = "basic", -- or "off" if you want very quiet
+						diagnosticSeverityOverrides = {
+							-- reportUnusedImport = "none",
+							reportUnusedVariable = "none",
+							reportUnusedFunction = "none",
+							reportUnusedClass = "none",
+							reportUnusedParameter = "none",
+						},
+					},
+				},
+			},
 		})
 
 		-- C/C++ LSP
