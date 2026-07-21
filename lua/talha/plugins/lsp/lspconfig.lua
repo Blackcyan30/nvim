@@ -133,7 +133,7 @@ return {
 					analysis = {
 						typeCheckingMode = "basic", -- or "off" if you want very quiet
 						diagnosticSeverityOverrides = {
-							-- reportUnusedImport = "none",
+							reportUnusedImport = "none",
 							reportUnusedVariable = "none",
 							reportUnusedFunction = "none",
 							reportUnusedClass = "none",
@@ -148,7 +148,7 @@ return {
 		lspconfig.clangd.setup({
 			capabilities = capabilities,
 			cmd = { "clangd", "--fallback-style=none", "--header-insertion=never" },
-			init_options = { fallbackFlags = { "-std=c++23" } },
+			-- init_options = { fallbackFlags = { "-std=c++23" } },
 		})
 
 		-- Java LSP

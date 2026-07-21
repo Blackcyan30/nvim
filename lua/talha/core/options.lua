@@ -30,7 +30,6 @@ opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
-
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
@@ -55,3 +54,17 @@ opt.sidescrolloff = 8 -- Keep 8 columns left/right of cursor when scrolling
 -- Even faster cursor movement
 opt.timeout = false -- Disable timeout for key sequences
 opt.ttimeout = false -- Disable timeout for terminal key codes
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = function()
+		-- remove the “unused/unnecessary” dim look
+		vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "Normal" })
+
+		-- optional: deprecated styling too
+		vim.api.nvim_set_hl(0, "DiagnosticDeprecated", { link = "Normal" })
+	end,
+})
+
+-- apply once immediately too (in case colorscheme already loaded)
+vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", { link = "Normal" })
+vim.api.nvim_set_hl(0, "DiagnosticDeprecated", { link = "Normal" })
