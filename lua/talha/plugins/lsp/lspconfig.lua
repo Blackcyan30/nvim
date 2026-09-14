@@ -94,16 +94,19 @@ return {
 		})
 
 		-- LSP configs
-		local lspconfig = require("lspconfig")
+		local configure = function(name, config)
+			vim.lsp.config(name, config)
+			vim.lsp.enable(name)
+		end
 
 		-- TypeScript/JavaScript LSP
-		lspconfig.ts_ls.setup({
+		configure("ts_ls", {
 			capabilities = capabilities,
 			filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" },
 		})
 
 		-- Lua LSP
-		lspconfig.lua_ls.setup({
+		configure("lua_ls", {
 			capabilities = capabilities,
 			settings = {
 				Lua = {
@@ -121,12 +124,12 @@ return {
 			end
 		end
 
-		lspconfig.pyright.setup({
+		configure("pyright", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
-		lspconfig.pyright.setup({
+		configure("pyright", {
 			capabilities = capabilities,
 			settings = {
 				python = {
@@ -145,24 +148,24 @@ return {
 		})
 
 		-- C/C++ LSP
-		lspconfig.clangd.setup({
+		configure("clangd", {
 			capabilities = capabilities,
 			cmd = { "clangd", "--fallback-style=none", "--header-insertion=never" },
 			-- init_options = { fallbackFlags = { "-std=c++23" } },
 		})
 
 		-- Java LSP
-		lspconfig.jdtls.setup({
+		configure("jdtls", {
 			capabilities = capabilities,
 		})
 
 		-- Go LSP
-		lspconfig.gopls.setup({
+		configure("gopls", {
 			capabilities = capabilities,
 		})
 
 		-- Svelte LSP
-		lspconfig.svelte.setup({
+		configure("svelte", {
 			capabilities = capabilities,
 			on_attach = function(client, _)
 				vim.api.nvim_create_autocmd("BufWritePost", {
@@ -175,30 +178,42 @@ return {
 		})
 
 		-- GraphQL LSP
-		lspconfig.graphql.setup({
+		configure("graphql", {
 			capabilities = capabilities,
 			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
 		})
 
 		-- Emmet LSP
-		lspconfig.emmet_ls.setup({
+		configure("emmet_ls", {
 			capabilities = capabilities,
 			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
 		})
 
 		-- HTML LSP
-		lspconfig.html.setup({
+		configure("html", {
 			capabilities = capabilities,
 		})
 
 		-- CSS LSP
-		lspconfig.cssls.setup({
+		configure("cssls", {
 			capabilities = capabilities,
 		})
 
 		-- Tailwind CSS LSP
-		lspconfig.tailwindcss.setup({
+		configure("tailwindcss", {
 			capabilities = capabilities,
 		})
+
+		-- Metal Shading Language support activates only when the separately installed
+		-- metal-lsp executable is available (it requires macOS and Xcode tools).
+		vim.filetype.add({ extension = { metal = "metal" } })
+		if vim.fn.executable("metal-lsp") == 1 then
+			configure("metal_lsp", {
+				cmd = { "metal-lsp" },
+				filetypes = { "metal" },
+				root_markers = { ".git", "Package.swift", ".xcodeproj" },
+				capabilities = capabilities,
+			})
+		end
 	end,
 }
