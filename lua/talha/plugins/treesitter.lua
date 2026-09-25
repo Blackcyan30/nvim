@@ -1,78 +1,32 @@
+local parsers = {
+	"javascript", "typescript", "tsx", "python", "c", "cpp", "java", "go",
+	"diff", "luadoc", "fsharp", "json", "yaml", "html", "css", "prisma",
+	"markdown", "markdown_inline", "svelte", "graphql", "bash", "lua", "vim",
+	"dockerfile", "gitignore", "query", "vimdoc",
+}
+
 return {
 	"nvim-treesitter/nvim-treesitter",
-	branch = "master",
+	branch = "main",
 	lazy = false,
-	build = ":TSUpdate",
+	build = function()
+		require("nvim-treesitter").install(parsers):wait(300000)
+	end,
 	dependencies = {
 		"windwp/nvim-ts-autotag",
 	},
 	config = function()
-		-- import nvim-treesitter plugin
-		local treesitter = require("nvim-treesitter.configs")
+		require("nvim-treesitter").setup()
 
-		-- configure treesitter
-		treesitter.setup({ -- enable syntax highlighting
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = true,
-			},
-			-- enable indentation
-			indent = { enable = true },
-			-- enable autotagging (w/ nvim-ts-autotag plugin)
-			autotag = {
-				enable = true,
-			},
-			-- ensure these language parsers are installed
-			ensure_installed = {
-				-- JavaScript/TypeScript
-				"javascript",
-				"typescript",
-				"tsx",
-				
-				-- Python
-				"python",
-				
-				-- C/C++
-				"c",
-				"cpp",
-				
-				-- Java
-				"java",
-				
-				-- Go
-				"go",
-				
-				-- Other languages
-				"diff",
-				"luadoc",
-				"fsharp",
-				"json",
-				"yaml",
-				"html",
-				"css",
-				"prisma",
-				"markdown",
-				"markdown_inline",
-				"svelte",
-				"graphql",
-				"bash",
-				"lua",
-				"vim",
-				"dockerfile",
-				"gitignore",
-				"query",
-				"vimdoc",
-			},
-			auto_install = true,
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-space>",
-					node_incremental = "<C-space>",
-					scope_incremental = false,
-					node_decremental = "<bs>",
-				},
-			},
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "*",
+			callback = function(args)
+				local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+				if lang and vim.tbl_contains(parsers, lang) then
+					vim.treesitter.start(args.buf, lang)
+					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
+			end,
 		})
 	end,
 }
