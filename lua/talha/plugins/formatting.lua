@@ -24,11 +24,8 @@ return {
         cpp = { "clang-format" },
         go = { "goimports", "gofumpt" },
       },
-      format_on_save = {
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 1000,
-      },
+      -- Formatting is deliberate: use <Space>mp rather than changing a file on save.
+      format_on_save = false,
     })
 
     vim.keymap.set({ "n", "v" }, "<leader>mp", function()
